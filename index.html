@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💖 How Well Do You Know Me?</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: #fff;
+    overflow: hidden;
+}
+
+.container {
+    background: rgba(255,255,255,0.15);
+    padding: 25px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #ff4f9a;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+img {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 20px;
+    margin-top: 15px;
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="container" id="box">
+    <h2>💖 How Well Do You Know Me?</h2>
+    <div id="progress"></div>
+    <p id="question"></p>
+    <div id="answers"></div>
+</div>
+
+<script>
+// QUIZ DATA
+const quiz = [
+    {question:"What's my favorite food?",answers:["Pizza","Burger","Chicken"],correct:1},
+    {question:"What's our anniversary?",answers:["April 24","May 10","June 1"],correct:0},
+    {question:"My favorite part of your body?",answers:["Eyes","Lips","Hands"],correct:1},
+    {question:"What’s something that always reminds you of me?💖",type:"input"},
+    {question:"What do I love doing when it's just us? 💖",type:"input"}
+];
+
+let current=0;
+
+// LOAD QUESTION
+function loadQuestion(){
+    let q=quiz[current];
+    document.getElementById("progress").innerText=`Question ${current+1} of ${quiz.length}`;
+    document.getElementById("question").innerText=q.question;
+    let answers=document.getElementById("answers");
+    answers.innerHTML="";
+
+    if(q.type==="input"){
+        answers.innerHTML=`
+        <input id="inputAns" placeholder="Type your answer...">
+        <button onclick="submitInput()">Submit</button>`;
+    }else{
+        q.answers.forEach((a,i)=>{
+            let btn=document.createElement("button");
+            btn.innerText=a;
+            btn.onclick=()=>check(i);
+            answers.appendChild(btn);
+        });
+    }
+}
+
+function check(i){
+    next();
+}
+
+function submitInput(){
+    let val=document.getElementById("inputAns").value.trim();
+    if(val!=="") next();
+}
+
+// NEXT QUESTION OR SHOW VERIFICATION
+function next(){
+    current++;
+    if(current<quiz.length) loadQuestion();
+    else verification();
+}
+
+// VERIFICATION STEP
+function verification(){
+    document.getElementById("box").innerHTML=`
+    <h2>🔐 Verification</h2>
+    <p>Tap continue and type my name to unlock your reward 💖</p>
+    <button onclick="passwordStep()">Continue 💝</button>`;
+}
+
+function passwordStep(){
+    document.getElementById("box").innerHTML=`
+    <h2>Enter My Name</h2>
+    <input id="nameInput" placeholder="Type my name...">
+    <button onclick="checkName()">Unlock</button>`;
+}
+
+function checkName(){
+    let name=document.getElementById("nameInput").value.trim().toLowerCase();
+    if(name==="458424"){
+        congratulations();
+    }else{
+        alert("Hmm... wrong 👀");
+    }
+}
+
+// CONGRATULATIONS MESSAGE
+function congratulations(){
+    startConfetti();
+    document.getElementById("box").innerHTML=`
+    <h2>🎉 Congratulations 💖</h2>
+    <p>You made it! You know me so well 😍<br>
+    Keep being amazing! 💕</p>
+    <button onclick="nextPage()">Next 🥺</button>`;
+}
+
+// NEXT PAGE FOR PICTURE / PRIVATE MESSAGE
+function nextPage(){
+    document.getElementById("box").innerHTML=`
+    <h2>💖 Special for You</h2>
+    <p>Click below to see my surprise 💕</p>
+    <button onclick="showFinal()">Open 💌</button>`;
+}
+
+function showFinal(){
+    document.getElementById("box").innerHTML=`
+    <h2>💌 My Message</h2>
+    <p>  — I don't know kong pano mag start 🥺Ahh Basta ahh i hambal ko nalang ang first ng ma sulod sa Ulo ko 🥺
+    
+  
+first of all congrats kag naga high honor ka.. Im so proud ang sure ko proud man family mo sa na achieve mo Right now 🥺 
+
+
+Sa 11 months ta damo ta na agyan my Happy days & SaD Time 😭 Something daw ma end up pero :< Na kaya talang If kaya ta ang 1 Year Biskan Gamo Rs ta it means kaya taman another 1 year pa 🥺 —
+
+
+
+🥺U know ng damo pata agyan :< Something afraid ko If my some boy ng close simo indi ko gusto i replace moko 😭 im afraid sa amo na babii pero know ko 🥺 kaya ta ... Daw ka random sakon nuh:< Pero thankyou naga stay ka biskan na kita mona true bad side ko indi ko gusto daw puro sorry nalang i say ko sa Message ko 🥺...
+
+
+Wala nako my ma dumduman gina say ko lang gid ang first things na gina think ko 🥺... I wish more challenges pa aton ma kaya :< Gusto kopa maka upod ka sa tanan ng Ma Achieve ko same man simo 🥺gusto taka suportahan sa tanan Kong my times ng daw sad ka im here lang sakon mo i say if my problem ka 🥺Same man sakon... Feeling ko non sense ni gina pang hambal ko daw wala lang;< pero never mo i think ng wala ko naga care sa imo Wala taka gina think That's wrong always ka nasa isip ko:< Permi ko naga worry wala reason :< ang point ko lang ng gusto ko Kita tapos sa start kag sa end:< Upod ta... Im willing to sacrifice para saton duha  para sa future ta:<
+
+I love you so much babyy ko 🥺 — I hope ma fulfill ta promise ta isa't-isa:<
+
+💖</p>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcvwfONqbC3ormkkrLcZisZZmq2IHmjHHj79KcFpWtng&s=10"alt="Special Picture">`;
+}
+
+// CONFETTI EFFECT
+function startConfetti(){
+    const canvas=document.getElementById("confetti");
+    const ctx=canvas.getContext("2d");
+    canvas.width=window.innerWidth;
+    canvas.height=window.innerHeight;
+
+    let pieces=[];
+    for(let i=0;i<100;i++){
+        pieces.push({
+            x:Math.random()*canvas.width,
+            y:Math.random()*canvas.height,
+            size:Math.random()*5+2,
+            speed:Math.random()*3+2
+        });
+    }
+
+    function update(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        pieces.forEach(p=>{
+            ctx.fillStyle = `hsl(${Math.random()*360}, 100%, 70%)`;
+            ctx.fillRect(p.x,p.y,p.size,p.size);
+            p.y+=p.speed;
+            if(p.y>canvas.height) p.y=0;
+        });
+        requestAnimationFrame(update);
+    }
+    update();
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
